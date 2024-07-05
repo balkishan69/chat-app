@@ -1,0 +1,24 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# dotenv environment variables file
+.env
+
+# OS-specific files
+.DS_Store
+
+# Heroku-specific files
+Procfile
+
+# Build directory
+dist/
