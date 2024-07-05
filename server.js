@@ -58,3 +58,30 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
+
+
+io.on('connection', (socket) => {
+    console.log('New client connected');
+
+    getMessages((messages) => {
+        socket.emit('previous messages', messages);
+    });
+
+    socket.on('chat message', (msg) => {
+        addMessage(msg);
+        io.emit('chat message', msg);
+    });
+
+    socket.on('media message', (msg) => {
+        addMessage(msg);
+        io.emit('media message', msg);
+    });
+
+    socket.on('typing', (isTyping) => {
+        socket.broadcast.emit('typing', isTyping);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected');
+    });
+});

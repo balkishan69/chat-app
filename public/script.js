@@ -36,3 +36,44 @@ socket.on('media message', function(msg) {
     messages.appendChild(item);
     messages.scrollTop = messages.scrollHeight;
 });
+
+
+var typing = false;
+var timeout = undefined;
+
+var form = document.getElementById('form');
+var input = document.getElementById('input');
+var messages = document.getElementById('messages');
+
+input.addEventListener('keypress', function() {
+    if (!typing) {
+        typing = true;
+        socket.emit('typing', true);
+        clearTimeout(timeout);
+        timeout = setTimeout(stopTyping, 3000);
+    } else {
+        clearTimeout(timeout);
+        timeout = setTimeout(stopTyping, 3000);
+    }
+});
+
+function stopTyping() {
+    typing = false;
+    socket.emit('typing', false);
+}
+
+socket.on('typing', function(data) {
+    var typingElement = document.getElementById('typing');
+    if (data) {
+        if (!typingElement) {
+            var item = document.createElement('li');
+            item.id = 'typing';
+            item.textContent = 'Someone is typing...';
+            messages.appendChild(item);
+        }
+    } else {
+        if (typingElement) {
+            messages.removeChild(typingElement);
+        }
+    }
+});
