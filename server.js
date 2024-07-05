@@ -39,16 +39,16 @@ io.on('connection', (socket) => {
     console.log('New client connected');
 
     getMessages((messages) => {
-        socket.emit('previous messages', messages);
+        socket.emit('previous messages', messages.map(msg => msg.text));
     });
 
     socket.on('chat message', (msg) => {
-        addMessage(msg.username, msg.text);
+        addMessage('anonymous', msg);
         io.emit('chat message', msg);
     });
 
     socket.on('media message', (msg) => {
-        addMessage(msg.username, msg.text);
+        addMessage('anonymous', msg);
         io.emit('media message', msg);
     });
 
