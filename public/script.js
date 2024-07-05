@@ -15,7 +15,7 @@ socket.on('previous messages', function(messages) {
     messagesElement.innerHTML = '';
     messages.forEach(function(msg) {
         var item = document.createElement('li');
-        item.textContent = msg;
+        item.textContent = msg.text;
         messagesElement.appendChild(item);
     });
     messagesElement.scrollTop = messagesElement.scrollHeight;

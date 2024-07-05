@@ -14,10 +14,10 @@ const port = process.env.PORT || 3000;
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/')
+        cb(null, 'uploads/');
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname))
+        cb(null, Date.now() + path.extname(file.originalname));
     }
 });
 
@@ -39,16 +39,16 @@ io.on('connection', (socket) => {
     console.log('New client connected');
 
     getMessages((messages) => {
-        socket.emit('previous messages', messages.map(msg => msg.text));
+        socket.emit('previous messages', messages);
     });
 
     socket.on('chat message', (msg) => {
-        addMessage('anonymous', msg);
+        addMessage(msg);
         io.emit('chat message', msg);
     });
 
     socket.on('media message', (msg) => {
-        addMessage('anonymous', msg);
+        addMessage(msg);
         io.emit('media message', msg);
     });
 
