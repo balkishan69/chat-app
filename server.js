@@ -14,16 +14,15 @@ const port = process.env.PORT || 3000;
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/');
+        cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname));
+        cb(null, Date.now() + path.extname(file.originalname))
     }
 });
 
 const upload = multer({ storage: storage });
 
-// Ensure uploads directory exists
 if (!fs.existsSync('uploads')) {
     fs.mkdirSync('uploads');
 }
@@ -43,13 +42,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on('chat message', (msg) => {
-        addMessage(msg);
+        addMessage(null, msg.text); // Adjusted to save anonymous message
         io.emit('chat message', msg);
-    });
-
-    socket.on('media message', (msg) => {
-        addMessage(msg);
-        io.emit('media message', msg);
     });
 
     socket.on('disconnect', () => {
@@ -58,30 +52,3 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
-
-
-io.on('connection', (socket) => {
-    console.log('New client connected');
-
-    getMessages((messages) => {
-        socket.emit('previous messages', messages);
-    });
-
-    socket.on('chat message', (msg) => {
-        addMessage(msg);
-        io.emit('chat message', msg);
-    });
-
-    socket.on('media message', (msg) => {
-        addMessage(msg);
-        io.emit('media message', msg);
-    });
-
-    socket.on('typing', (isTyping) => {
-        socket.broadcast.emit('typing', isTyping);
-    });
-
-    socket.on('disconnect', () => {
-        console.log('Client disconnected');
-    });
-});
