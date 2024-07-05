@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('chat message', (msg) => {
-        addMessage(null, msg.text); // Adjusted to save anonymous message
+        addMessage(msg.username, msg.text, msg.filePath); // Adjusted to save messages with file paths
         io.emit('chat message', msg);
     });
 
