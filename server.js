@@ -36,8 +36,6 @@ app.post('/upload', upload.single('file'), (req, res) => {
     res.json({ filePath: `/uploads/${req.file.filename}` });
 });
 
-
-
 io.on('connection', (socket) => {
     console.log('New client connected');
 
@@ -46,6 +44,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('chat message', (msg) => {
+        msg.timestamp = new Date().toLocaleString(); // Add timestamp to the message
         addMessage(msg.username, msg.text, msg.filePath);
         io.emit('chat message', msg);
     });
@@ -62,6 +61,5 @@ io.on('connection', (socket) => {
         console.log('Client disconnected');
     });
 });
-
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
