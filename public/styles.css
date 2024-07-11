@@ -76,11 +76,6 @@ body {
     cursor: pointer;
 }
 
-.timestamp {
-    font-size: 0.8em;
-    color: #888;
-}
-
 #typing {
     color: #888;
     font-style: italic;
@@ -109,3 +104,10 @@ body {
         flex-direction: column;
     }
 }
+
+#typing {
+    color: #888;
+    font-style: italic;
+    padding: 10px;
+}
+

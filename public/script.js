@@ -19,8 +19,7 @@ form.addEventListener('submit', function(e) {
         const message = {
             username: nameInput.value || 'Anonymous',
             text: messageInput.value,
-            filePath: null,
-            timestamp: new Date().toLocaleString() // Add timestamp to the message
+            filePath: null
         };
 
         if (fileInput.files.length > 0) {
@@ -53,7 +52,7 @@ socket.on('previous messages', function(messages) {
     messagesElement.innerHTML = ''; // Clear previous messages to avoid duplication
     messages.forEach(function(msg) {
         var item = document.createElement('li');
-        item.innerHTML = `<strong>${msg.username}:</strong> ${msg.text}<br><span class="timestamp">${msg.timestamp}</span>`;
+        item.innerHTML = `<strong>${msg.username}:</strong> ${msg.text}`;
         if (msg.filePath) {
             item.innerHTML += ` <a href="${msg.filePath}" target="_blank">${msg.filePath}</a>`;
         }
@@ -65,7 +64,7 @@ socket.on('previous messages', function(messages) {
 socket.on('chat message', function(msg) {
     var messages = document.getElementById('messages');
     var item = document.createElement('li');
-    item.innerHTML = `<strong>${msg.username}:</strong> ${msg.text}<br><span class="timestamp">${msg.timestamp}</span>`;
+    item.innerHTML = `<strong>${msg.username}:</strong> ${msg.text}`;
     if (msg.filePath) {
         item.innerHTML += ` <a href="${msg.filePath}" target="_blank">${msg.filePath}</a>`;
     }
@@ -83,9 +82,9 @@ socket.on('typing', function(data) {
     }
 });
 
-socket.on('stop typing', function(data) {
+socket.on('stop typing', function() {
     var typingElement = document.getElementById('typing');
-    if (typingElement && typingElement.innerText.includes(data.username)) {
+    if (typingElement) {
         typingElement.remove();
     }
 });
