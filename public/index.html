@@ -7,14 +7,28 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="auth-container">
+        <form id="register-form" class="auth-form">
+            <h2>Register</h2>
+            <input id="register-username" placeholder="Username" required />
+            <input id="register-password" type="password" placeholder="Password" required />
+            <button>Register</button>
+        </form>
+        <form id="login-form" class="auth-form">
+            <h2>Login</h2>
+            <input id="login-username" placeholder="Username" required />
+            <input id="login-password" type="password" placeholder="Password" required />
+            <button>Login</button>
+        </form>
+        <button id="logout-button" class="auth-button">Logout</button>
+    </div>
     <div class="chat-container">
         <div class="chat-header">
             <h1>Chit-Chat</h1>
         </div>
         <div id="messages" class="chat-messages"></div>
         <form id="form" class="chat-form" action="">
-            <input id="username" placeholder="Username" autocomplete="off"  />
-            <input id="input" placeholder="Type a message..." autocomplete="off"  />
+            <input id="input" placeholder="Type a message..." autocomplete="off" />
             <input type="file" id="fileInput" />
             <button>Send</button>
         </form>
