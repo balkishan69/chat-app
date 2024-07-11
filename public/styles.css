@@ -98,3 +98,9 @@ body {
         flex-direction: column;
     }
 }
+
+#typing {
+    color: #888;
+    font-style: italic;
+    padding: 10px;
+}

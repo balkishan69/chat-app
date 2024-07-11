@@ -36,6 +36,8 @@ app.post('/upload', upload.single('file'), (req, res) => {
     res.json({ filePath: `/uploads/${req.file.filename}` });
 });
 
+
+
 io.on('connection', (socket) => {
     console.log('New client connected');
 
@@ -48,9 +50,18 @@ io.on('connection', (socket) => {
         io.emit('chat message', msg);
     });
 
+    socket.on('typing', (data) => {
+        socket.broadcast.emit('typing', data);
+    });
+
+    socket.on('stop typing', (data) => {
+        socket.broadcast.emit('stop typing', data);
+    });
+
     socket.on('disconnect', () => {
         console.log('Client disconnected');
     });
 });
+
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

@@ -3,6 +3,15 @@ var form = document.getElementById('form');
 var nameInput = document.getElementById('name');
 var messageInput = document.getElementById('input');
 var fileInput = document.getElementById('fileInput');
+var typingTimeout;
+
+messageInput.addEventListener('input', function() {
+    socket.emit('typing', { username: nameInput.value || 'Anonymous' });
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+        socket.emit('stop typing', { username: nameInput.value || 'Anonymous' });
+    }, 3000);
+});
 
 form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -61,4 +70,21 @@ socket.on('chat message', function(msg) {
     }
     messages.appendChild(item);
     messages.scrollTop = messages.scrollHeight;
+});
+
+socket.on('typing', function(data) {
+    var typingElement = document.getElementById('typing');
+    if (!typingElement) {
+        typingElement = document.createElement('div');
+        typingElement.id = 'typing';
+        typingElement.innerText = `${data.username} is typing...`;
+        document.querySelector('.chat-messages').appendChild(typingElement);
+    }
+});
+
+socket.on('stop typing', function() {
+    var typingElement = document.getElementById('typing');
+    if (typingElement) {
+        typingElement.remove();
+    }
 });
